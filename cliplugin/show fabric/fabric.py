@@ -6,14 +6,15 @@ from srlinux.location import build_path
 from srlinux.mgmt.cli.plugins.reports.gnmi_lite import GNMIHandlerLite
 import datetime
 
-############################ INPUTs here... ############################
-
-interfaces = ['ethernet-1/1.1', 'ethernet-1/2.1']
-uplink_peer_group = 'spine'
-rr_peer_group = 'EVPN-NVO'
-uplink_network_instance = "default"
-
-########################################################################
+############################ INPUTs here... ############################# 
+                                                                        # 
+interfaces = []                                                         # fill the interfaces list in or a pattern in the uplink descriptions
+description = 'spine'                                                   # if both given: interfaces list has precedence over the description pattern
+uplink_peer_group = 'spine'                                             # this code assumes Leaf uplinks have eBPG peering with Spine/DCGW 
+rr_peer_group = 'EVPN-NVO'                                              # and iBGP EVPN with the route-reflector(s) 
+uplink_network_instance = "default"                                     # networks instance is ideally default
+                                                                        #
+#########################################################################
 
 
 class Plugin(CliPlugin):
@@ -34,7 +35,8 @@ class Plugin(CliPlugin):
         '/opt/srlinux/python/virtual-env/lib/python3.6/site-packages/srlinux/mgmt/cli/plugins/reports/fabric.py'
         
         Example:
-        interfaces = ['ethernet-1/1.1', 'ethernet-1/2.1']
+        interfaces = []             # fill the interfaces list in or the description pattern
+        description = 'spine' 
         uplink_peer_group = 'spine'
         rr_peer_group = 'EVPN-NVO'
         ''')
@@ -152,15 +154,26 @@ class Plugin(CliPlugin):
         for peer in peer_list_data.network_instance.get().protocols.get().bgp.get().neighbor.items():
             if peer.peer_group == group :
                 peer_list.append(peer.peer_address) 
+        if not peer_list: print(f"No peer in <<{group}>> group!")
         return peer_list
+                
+    def _populate_interface_list(self, state, description):
+        int_list_path = build_path(f'/interface[name=*]/subinterface[index=*]/description')
+        int_list_data = state.server_data_store.stream_data(int_list_path, recursive=True) 
+        int_list = []
+        for i in int_list_data.interface.items():
+            if description in i.subinterface.get().description:
+                interfaces.append(f'{i.name}.{i.subinterface.get().index}')
+        if not interfaces: print(f"No interface has <<{description}>> in it's description!")
 
     def _populate_data(self, result, state):
         uplink_peer_list = self._populate_peer_list(state,uplink_peer_group)       
         result.synchronizer.flush_fields(result)
+        if not interfaces: self._populate_interface_list(state,description)
         i=0
         data = result.uplink_header.create()
-        for uplink in uplink_peer_list:
-          server_data = self._fetch_state(state, uplink, interfaces[i].split('.'))
+        for interface in interfaces:
+          server_data = self._fetch_state(state, uplink_peer_list[i], interface.split('.'))
           data_child = data.uplink_child.create(interfaces[i].split('.')[0])
           data_child.local_router = self.sys_name_data.system.get().name.get().host_name or '<Unknown>'
           data_child.link_status = self.int_oper_state_data.interface.get().subinterface.get().oper_state or '<Unknown>'
@@ -195,11 +208,12 @@ class Plugin(CliPlugin):
     def _populate_data_stats(self, result, state):
         uplink_peer_list = self._populate_peer_list(state,uplink_peer_group)
         result.synchronizer.flush_fields(result)
+        if not interfaces: self._populate_interface_list(state,description)
         i=0
         data = result.stats_header.create()
-        for uplink in uplink_peer_list:
-          server_data = self._fetch_state_stats(state, interfaces[i].split('.')[0])
-          data_child = data.stats_child.create(interfaces[i].split('.')[0])
+        for interface in interfaces:
+          server_data = self._fetch_state_stats(state, interface.split('.')[0])
+          data_child = data.stats_child.create(interface.split('.')[0])
           data_child.traffic_bps_in_out = f'{self.gen_data.interface.get().traffic_rate.get().in_bps}/{self.gen_data.interface.get().traffic_rate.get().in_bps}'
           data_child.packets_in_out = f'{self.gen_data.interface.get().statistics.get().in_unicast_packets}/{self.gen_data.interface.get().statistics.get().out_unicast_packets or "<Unknown>"}'
           data_child.errored_in_out = f'{self.gen_data.interface.get().statistics.get().in_error_packets }/{self.gen_data.interface.get().statistics.get().out_error_packets}'
