@@ -3,7 +3,6 @@ from srlinux.mgmt.cli import CliPlugin
 from srlinux.schema import FixedSchemaRoot
 from srlinux.syntax import Syntax
 from srlinux.location import build_path
-from srlinux.mgmt.cli.plugins.reports.gnmi_lite import GNMIHandlerLite
 import datetime
 
 ############################ INPUTs here... ############################# 
