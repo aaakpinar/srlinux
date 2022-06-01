@@ -157,7 +157,7 @@ class Plugin(CliPlugin):
         for peer in peer_list_data.network_instance.get().protocols.get().bgp.get().neighbor.items():
             if peer.peer_group == group :
                 peer_list.append(peer.peer_address) 
-        if not peer_list: print(f"No peer in <<{group}>> group! \n PLEASE SET THE PARAMETERS WITH set-show-fabric.sh OR DIRECTLY FROM THE /etc/opt/srlinuc/cli/plugins/fabric/py FROM THE BASH!")
+        if not peer_list: print(f"No peer in <<{group}>> group! \n\n PLEASE SET THE CORRECT PARAMETERS WITH 'set-show-fabric.sh' OR DIRECTLY IN THE '/etc/opt/srlinuc/cli/plugins/fabric/py' FROM THE BASH!/n")
         return peer_list
                 
     def _populate_interface_list(self, state, description):
@@ -167,7 +167,7 @@ class Plugin(CliPlugin):
         for i in int_list_data.interface.items():
             if description in i.subinterface.get().description:
                 interfaces.append(f'{i.name}.{i.subinterface.get().index}')
-        if not interfaces: print(f"No interface has <<{description}>> in it's description!")
+        if not interfaces: print(f"No interface has <<{description}>> in it's description!\n\n PLEASE SET THE CORRECT PARAMETERS WITH 'set-show-fabric.sh' OR DIRECTLY IN THE '/etc/opt/srlinuc/cli/plugins/fabric/py' FROM THE BASH!/n"")
 
     def _populate_data(self, result, state):
         uplink_peer_list = self._populate_peer_list(state,uplink_peer_group)       
