@@ -1,7 +1,7 @@
 #!/bin/bash
 wget -O /etc/opt/srlinux/cli/plugins/fabric.py  https://raw.githubusercontent.com/aaakpinar/srlinux/main/cliplugin/show%20fabric/fabric.py 
-echo [[${PWD##*/} == "show-fabric"]]
-if [["${PWD##*/}" == "show-fabric"]]; then 
+folder = ${PWD##*/}
+if $folder == "show-fabric"; then 
    mkdir -p show-fabric 
 fi
 wget -O ./show-fabric/get-show-fabric.sh https://raw.githubusercontent.com/aaakpinar/srlinux/main/cliplugin/show%20fabric/get-show-fabric.sh
