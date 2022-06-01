@@ -18,5 +18,7 @@ sed -i "s/uplink_peer_group = ".*"/uplink_peer_group = \"$uplink_peer_group\"/" 
 sed -i "s/rr_peer_group = ".*"/rr_peer_group = \"$rr_peer_group\"/" /etc/opt/srlinux/cli/plugins/fabric.py
 sed -i "s/uplink_network_instance = ".*"/uplink_network_instance = \"$uplink_network_instance\"/" /etc/opt/srlinux/cli/plugins/fabric.py
 
+sr_cli
+
 
 
