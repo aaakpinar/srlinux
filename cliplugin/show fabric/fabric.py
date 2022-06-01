@@ -5,15 +5,19 @@ from srlinux.syntax import Syntax
 from srlinux.location import build_path
 import datetime
 
-############################ INPUTs here... ############################# 
-                                                                        # 
-interfaces = []                                                         # fill the interfaces list in or a pattern in the uplink descriptions
-description = 'spine'                                                   # if both given: interfaces list has precedence over the description pattern
-uplink_peer_group = 'spine'                                             # this code assumes Leaf uplinks have eBPG peering with Spine/DCGW 
-rr_peer_group = 'EVPN-NVO'                                              # and iBGP EVPN with the route-reflector(s) 
-uplink_network_instance = "default"                                     # networks instance is ideally default
-                                                                        #
-#########################################################################
+############################ INPUTs here... ################################ 
+# fill the interfaces list in or a pattern in the uplink descriptions   
+# if both given: interfaces list has precedence over the description pattern                                                                      
+interfaces = []                                                         
+description = 'spine'           
+                                        
+# e/iBGP group names
+uplink_peer_group = 'spine'                                             
+rr_peer_group = 'EVPN'                                              
+
+# network instance is typically default
+uplink_network_instance = "default"                                                                                                            
+############################################################################
 
 
 class Plugin(CliPlugin):
@@ -28,10 +32,10 @@ class Plugin(CliPlugin):
 
     def _show_help (self,state,output,**_kwargs):
         print('''
-        This 'show fabric' command shows you statistics and the status of the uplinks and BGP peerings. 
+        The 'show fabric' command shows you statistics and the status of the uplinks and BGP peerings. 
         Therefore it requires some inputs that need to be added in the 'fabric.py' file.
         
-        '/opt/srlinux/python/virtual-env/lib/python3.6/site-packages/srlinux/mgmt/cli/plugins/reports/fabric.py'
+        '/etc/opt/srlinux/cli/plugins/fabric.py'
         
         Example:
         interfaces = []             # fill the interfaces list in or the description pattern
@@ -153,7 +157,7 @@ class Plugin(CliPlugin):
         for peer in peer_list_data.network_instance.get().protocols.get().bgp.get().neighbor.items():
             if peer.peer_group == group :
                 peer_list.append(peer.peer_address) 
-        if not peer_list: print(f"No peer in <<{group}>> group!")
+        if not peer_list: print(f"No peer in <<{group}>> group! \n PLEASE SET THE PARAMETERS WITH set-show-fabric.sh OR DIRECTLY FROM THE /etc/opt/srlinuc/cli/plugins/fabric/py FROM THE BASH!")
         return peer_list
                 
     def _populate_interface_list(self, state, description):
