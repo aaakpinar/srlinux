@@ -1,7 +1,7 @@
 #!/bin/bash
 rm -f /etc/opt/srlinux/cli/plugins/fabric.py && rm -f ./set-show-fabric.sh
 
-read -p "Do you want to remove get script as well? [No]" get_remove
+read -p "Do you want to remove get script as well? (Yes/No) [No]" get_remove
 get_remove=${get_remove:-No}
 
 if [ $get_remove == "Yes" ]; then
