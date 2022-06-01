@@ -7,4 +7,3 @@ wget -O ./delete-show-fabric.sh https://raw.githubusercontent.com/aaakpinar/srli
 chmod +x ./get-show-fabric.sh ./set-show-fabric.sh ./delete-show-fabric.sh
 
 bash ./set-show-fabric.sh
-sr_cli
