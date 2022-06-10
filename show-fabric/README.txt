@@ -7,6 +7,7 @@ Therefore it requires some inputs to discover your uplinks and BGP peerings.
 HOW TO GET AND SET SHOW FABRIC CLI PLUGIN INTO YOUR SR LINUX
 
 1) Get the CLI Plugin with the get/set/delete scripts.This will run the get and set scripts consequently.
+   (DNS server-list configuration is needed in SR Linux)
 
    bash <(curl -s https://raw.githubusercontent.com/aaakpinar/srlinux/main/show-fabric/get-show-fabric.sh)
 
