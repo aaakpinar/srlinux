@@ -248,9 +248,12 @@ class Plugin(CliPlugin):
           data_child.local_router = self.sys_name_data.system.get().name.get().host_name or '<Unknown>'
           data_child.link_status = self.int_oper_state_data.interface.get().subinterface.get().oper_state or '<Unknown>'
           data_child.ebgp_status = self.session_state_data.network_instance.get().protocols.get().bgp.get().neighbor.get().session_state or '<Unknown>'
-          data_child.remote_router = self.lldp_neighbor_data.system.get().lldp.get().interface.get().neighbor.get().system_name or '<Unknown>'
-          data_child.remote_router = self.lldp_neighbor_data.system.get().lldp.get().interface.get().neighbor.get().system_name or '<Unknown>'
-          data_child.remote_interface = self.lldp_neighbor_data.system.get().lldp.get().interface.get().neighbor.get().port_id or '<Unknown>'
+          try:
+              data_child.remote_router = self.lldp_neighbor_data.system.get().lldp.get().interface.get().neighbor.get().system_name or '<Unknown>'
+              data_child.remote_interface = self.lldp_neighbor_data.system.get().lldp.get().interface.get().neighbor.get().port_id or '<Unknown>'
+          except:
+              data_child.remote_router = 'Check LLDP!'
+              data_child.remote_interface = 'Check LLDP!'
           data_child.synchronizer.flush_fields(data_child)
           i=i+1
         result.synchronizer.flush_children(result.uplink_header)  
