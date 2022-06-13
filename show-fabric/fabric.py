@@ -235,7 +235,7 @@ class Plugin(CliPlugin):
         for i in int_list_data.interface.items():
             if description in i.subinterface.get().description:
                 interfaces.append(f'{i.name}.{i.subinterface.get().index}')
-        if not interfaces: print(f"No interface has <<{description}>> in its description! \n\n PLEASE SET THE CORRECT PARAMETERS WITH 'set-show-fabric.sh' OR DIRECTLY IN THE '/etc/opt/srlinux/cli/plugins/fabric.py' FROM THE BASH!\n")
+        if not interfaces: print(f"No subinterface has <<{description}>> in its description! \n\n PLEASE SET THE CORRECT PARAMETERS WITH 'set-show-fabric.sh' OR DIRECTLY IN THE '/etc/opt/srlinux/cli/plugins/fabric.py' FROM THE BASH!\n")
 
     def _populate_data_uplink(self, result, state):
         uplink_peer_list = self._populate_peer_list(state,uplink_peer_group)       
