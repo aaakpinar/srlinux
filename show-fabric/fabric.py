@@ -183,7 +183,8 @@ class Plugin(CliPlugin):
         self.time_data = state.server_data_store.stream_data(time_path, recursive=True) 
         dt0 = self.time_data.system.get().information.get().current_datetime
         now = datetime.datetime(int(dt0[:4]),int(dt0[5:7]),int(dt0[8:10]),int(dt0[11:13]),int(dt0[14:16]),int(dt0[17:19]))       
-        then = datetime.datetime(int(dt1[:4]),int(dt1[5:7]),int(dt1[8:10]),int(dt1[11:13]),int(dt1[14:16]),int(dt1[17:19]))       
+        try: then = datetime.datetime(int(dt1[:4]),int(dt1[5:7]),int(dt1[8:10]),int(dt1[11:13]),int(dt1[14:16]),int(dt1[17:19]))       
+        except: then = now  
         return (now-then)
         
     def _populate_header(self, header):
@@ -268,7 +269,7 @@ class Plugin(CliPlugin):
           server_data = self._fetch_state_rr(state, rr)
           data_child = data.rr_child.create(rr)
           data_child.ibgp_status = self.rr_data.network_instance.get().protocols.get().bgp.get().neighbor.get().session_state or '<Unknown>'
-          data_child.neighbor_description = "spine"
+          data_child.neighbor_description = self.rr_data.network_instance.get().protocols.get().bgp.get().neighbor.get().description or '<Unknown>'
           data_child.rx_active_tx = f'{self.rr_data.network_instance.get().protocols.get().bgp.get().neighbor.get().evpn.get().received_routes}/'\
                                     f'{self.rr_data.network_instance.get().protocols.get().bgp.get().neighbor.get().evpn.get().active_routes}/'\
                                     f'{self.rr_data.network_instance.get().protocols.get().bgp.get().neighbor.get().evpn.get().sent_routes}' or 'Unknown'
