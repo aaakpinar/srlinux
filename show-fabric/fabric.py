@@ -199,7 +199,7 @@ class Plugin(CliPlugin):
         chassis_type = self.chassis_data.platform.get().chassis.get().type or '<Unknown>'
         data_child = data.platform_child.create(chassis_type)
         data_child.s_n = self.chassis_data.platform.get().chassis.get().serial_number or '<Unknown>'
-        data_child.uptime = self._time_handler(state, self.chassis_data.platform.get().chassis.get().last_booted)
+        data_child.uptime = self._time_handler(state, self.chassis_data.platform.get().chassis.get().last_booted) or '<Unknown>'
         data_child.cpu____ = self.cpu_data.platform.get().control.get().cpu.get().total.get().average_5 or '<Unknown>'
         data_child.memory____ = self.mem_data.platform.get().control.get().memory.get().utilization or '<Unknown>'
         first = True
