@@ -1,5 +1,5 @@
 #!/bin/bash
-read -p "Uplink Interfaces Description Pattern: [spine] " description
+read -p "Uplink Subinterfaces Description Pattern: [spine] " description
 description=${description:-spine}
 echo $description
 read -p "eBGP Group Name: [spine]:" uplink_peer_group

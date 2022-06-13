@@ -11,7 +11,7 @@ HOW TO GET AND SET SHOW FABRIC CLI PLUGIN INTO YOUR SR LINUX
 
    bash <(curl -sL https://raw.githubusercontent.com/aaakpinar/srlinux/main/show-fabric/get-show-fabric.sh)
 
-2) Add the uplink interfaces (or a pattern that is common in uplink interface description) and eBGP/iBGP(RR) peer group names after running above command or separately with set-show-fabric.sh script. The script will get you the SR Linux CLI.
+2) Add the uplink subinterfaces (or a pattern that is common in uplink SUBINTERFACE description) and eBGP/iBGP(RR) peer group names after running above command or separately with set-show-fabric.sh script. The script will get you the SR Linux CLI.
 
 3) Try 'show fabric' commands.
 

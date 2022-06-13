@@ -6,7 +6,7 @@ from srlinux.location import build_path
 import datetime
 
 ############################ INPUTs here... ################################ 
-# fill the interfaces list in or a pattern in the uplink descriptions   
+# fill the subinterfaces list in or a pattern in the uplink descriptions   
 # if both given: interfaces list has precedence over the description pattern                                                                      
 interfaces = []                                                         
 description = "spine"
@@ -39,7 +39,7 @@ class Plugin(CliPlugin):
         '/etc/opt/srlinux/cli/plugins/fabric.py'
         
         Example:
-        interfaces = []             # fill the interfaces list in or the description pattern
+        interfaces = []             # fill the subinterfaces list in or the description pattern
         description = "spine"
         uplink_peer_group = "eBGP-underlay"
         rr_peer_group = "to-vRR-overlay"
@@ -232,7 +232,7 @@ class Plugin(CliPlugin):
         int_list_path = build_path(f'/interface[name=*]/subinterface[index=*]/description')
         int_list_data = state.server_data_store.stream_data(int_list_path, recursive=True) 
         int_list = []
-        for i in int_list_data.interface.items():
+        for i in int_list_data.interface.items()
             if description in i.subinterface.get().description:
                 interfaces.append(f'{i.name}.{i.subinterface.get().index}')
         if not interfaces: print(f"No interface has <<{description}>> in its description! \n\n PLEASE SET THE CORRECT PARAMETERS WITH 'set-show-fabric.sh' OR DIRECTLY IN THE '/etc/opt/srlinux/cli/plugins/fabric.py' FROM THE BASH!\n")
