@@ -206,9 +206,9 @@ class Plugin(CliPlugin):
         for d in self.disk_data.platform.get().control.get().disk.get().partition.items():
             if first:
                 first = False
-                disk_util=str(self.disk_data.platform.get().control.get().disk.get("/dev/sda").partition.get(d.name).percent_used)
+                disk_util=str(self.disk_data.platform.get().control.get().disk.get().partition.get(d.name).percent_used)
             else:
-                disk_util+=str(f'/{self.disk_data.platform.get().control.get().disk.get("/dev/sda").partition.get(d.name).percent_used}')
+                disk_util+=str(f'/{self.disk_data.platform.get().control.get().disk.get().partition.get(d.name).percent_used}')
             
         data_child.disk_partitions____ = disk_util
 
