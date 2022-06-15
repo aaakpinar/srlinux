@@ -3,7 +3,7 @@ from srlinux.mgmt.cli import CliPlugin
 from srlinux.schema import FixedSchemaRoot
 from srlinux.syntax import Syntax
 from srlinux.location import build_path
-import datetime
+from datetime import datetime
 
 ############################ INPUTs here... ################################ 
 # fill the subinterfaces list in or a pattern in the uplink descriptions   
@@ -182,8 +182,8 @@ class Plugin(CliPlugin):
         time_path = build_path(f'/system/information/current-datetime')
         self.time_data = state.server_data_store.stream_data(time_path, recursive=True) 
         dt0 = self.time_data.system.get().information.get().current_datetime
-        now = datetime.datetime(int(dt0[:4]),int(dt0[5:7]),int(dt0[8:10]),int(dt0[11:13]),int(dt0[14:16]),int(dt0[17:19]))       
-        try: then = datetime.datetime(int(dt1[:4]),int(dt1[5:7]),int(dt1[8:10]),int(dt1[11:13]),int(dt1[14:16]),int(dt1[17:19]))       
+        now = datetime(int(dt0[:4]),int(dt0[5:7]),int(dt0[8:10]),int(dt0[11:13]),int(dt0[14:16]),int(dt0[17:19]))       
+        try: then = datetime(int(dt1[:4]),int(dt1[5:7]),int(dt1[8:10]),int(dt1[11:13]),int(dt1[14:16]),int(dt1[17:19]))       
         except: then = now  
         return (now-then)
         
