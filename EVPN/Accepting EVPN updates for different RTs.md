@@ -1,3 +1,5 @@
+#Accepting EVPN Updates from Different RTs for a VNI
+
 Workaround to accept EVPN updates coming for a VNI but with different RT. (Similar to import-as in Juniper)
 
 1. First, let's filter out the VNI:
