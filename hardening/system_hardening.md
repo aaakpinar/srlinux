@@ -1,4 +1,4 @@
-# System Hardening Best Practices
+# SRLinux System Hardening Best Practices
 
 This document provides SR Linux-specific best practices for system hardening, including configuration examples.
 
